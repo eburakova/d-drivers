@@ -1,0 +1,14 @@
+type: object
+properties:
+  title:
+    type: number
+  h1:
+    type: number
+  abstract:
+    type: number
+  meta_title:
+    type: number
+  meta_description:
+    type: number
+  merged_url:
+    type: number

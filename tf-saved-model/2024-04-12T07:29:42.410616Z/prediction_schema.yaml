@@ -1,0 +1,27 @@
+title: TabularRegression
+description: 'Regression results. The predicted target column name is: # Here the
+  actual target column name will be put.
+
+  '
+type: object
+properties:
+  value:
+    type: number
+    format: float
+    description: 'The regression value.
+
+      '
+  lower_bound:
+    type: number
+    format: float
+    description: 'The lower bound of the prediction interval.
+
+      '
+  upper_bound:
+    type: number
+    format: float
+    description: 'The upper bound of the prediction interval.
+
+      '
+x-batchpredict-csv-regression-result: value
+x-target-column-name: external_impressions
