@@ -1,4 +1,4 @@
-![Project logo](images/readme/header.png)
+![Project logo](images/banner.png)
 
 # D-Drivers: data-driven serach of traffic drivers | for [EFAHRER.com](https://efahrer.chip.de)
 
@@ -59,11 +59,11 @@ The reported period is 01.01.2023 - 23.03.2024.</p>
 ## Machine learning
 * `sklearn`
 * `pycaret`
-## Natural language processing
+## Natural language processing 🤗
 * Preprocessing (vectorizing, stop words): `nltk`
-* Sentiment analysis: [German Sentiment BERT](https://huggingface.co/oliverguhr/german-sentiment-bert) by Oliver Guhr
+* Sentiment analysis: [German Sentiment BERT](https://huggingface.co/oliverguhr/german-sentiment-bert) by [Oliver Guhr](https://github.com/oliverguhr)
 * Clickbait analysis: [RoBERTa base clickbait](https://huggingface.co/Stremie/roberta-base-clickbait) by [Alberto Martin](https://github.com/Albmargar1)
-
+* Classification: Zero-shot classification with [xlm-roberta-large-xnli](https://huggingface.co/joeddav/xlm-roberta-large-xnli)
 ---
 # Internal
 ## Setup
@@ -85,10 +85,16 @@ pip install -r requirements_dev.txt
 The `requirements.txt` file contains the libraries needed for deployment. of model or dashboard - thus no jupyter or other libs used during development.
 
 ## Data preprocessing
-1. Have the source tables from both data deliveries in the `data` folder:
+1. Have the source tables from the three data deliveries in the `data` folder:
+    - `data/data_d-drivers_2024-03-24.xlsx`
     - `data/data_d-drivers_2024-03-26.xlsx`
-    - `data/data_d-drivers_2024-03-26.xlsx`
-Unfortunately, nothing will work if you don't have the data
+    - `data/video_players_types_per_article.csv`
+2. Obtain other features with the code from the notebooks:
+    - `data/data_scraped.csv`
+    - `data/clickbait.csv`
+    - `data/data_trends_classified.csv`
+
+>Unfortunately, nothing will work if you don't have the data
 
 2. Find the scraped pages archive `pages.zip` in Slack or on our server; extract it into the `data` folder
 

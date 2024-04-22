@@ -44,3 +44,6 @@ else
     python scripts/5A_sentiment_merge.py
 
 fi
+echo ""
+echo "+++++ Prettifying the data segments for the D-Drivers Data App +++++"
+python scripts/6_prepare_for_demo.py
