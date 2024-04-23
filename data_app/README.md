@@ -14,10 +14,10 @@
 
 
 ## Google trends
-![Feature overview](../images/app/Google_trends.png)
+![Google trends API wrapper](../images/app/Google_trends.png)
 
 ## Sentiment check
-![Feature overview](../images/app/Sentiment_check.png)
+![Predict sentiment](../images/app/Sentiment_check.png)
 
 ## Predictions of the feed impressions
-![Feature overview](../images/app/Predictions.png)
+![Prediction of the feed impressions with ML](../images/app/Predictions.png)
