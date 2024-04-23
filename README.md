@@ -30,8 +30,8 @@ The aim of this project is to identify the drivers for the web traffic from the 
 | PUBLISH_DATE_EQUAL_TO_DATE  | if the grouping date is the same as a published date.  |
 | PAGE_CANONICAL_URL | full and actual URL of the page.    |
 | PAGE_NAME | actual page name, full ID and the title.    |
-| CLASSIFICATION_PRODUCT | the product to which the page refers. |
-| CLASSIFICATION_TYPE | the type of the page. |
+| CLASSIFICATION_PRODUCT | article topic. |
+| CLASSIFICATION_TYPE | article genre (news, review, etc.). |
 | TITLE | title of the page. Page name but without the full ID. |
 | PAGE_AUTHOR | author or authors of the article. |
 | VIDEO_PLAYER_TYPE | the standard way of video player implementation or widget. |
@@ -44,7 +44,7 @@ The aim of this project is to identify the drivers for the web traffic from the 
 | EXTERNAL_CLICKS |  clicks to the Efahrer page done in The News Feed |
 | EXTERNAL_IMPRESSIONS  |  views of the Efahrer page in The News Feed but do not necessarily ended with clicks on them. |
 
-Except for metrics named "external_", others are not distinguished by traffic source. No other filters are used. The data is grouped  by all the above mentioned dimensions. 
+Except for metrics named "external_", others are not distinguished by traffic source. 
 
 The reported period is 01.01.2023 - 23.03.2024.</p>
 </div>
