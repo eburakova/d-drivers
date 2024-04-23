@@ -1,6 +1,10 @@
 import streamlit as st
 import plotly.express as px
- 
+import pandas as pd
+from pytrends.request import TrendReq
+
+from functions import request_interest_over_time, request_trends_individual
+
 # Adjust the width of the Streamlit page
 st.set_page_config(
     page_title="Google trends",
@@ -17,7 +21,6 @@ Numbers represent search interest relative to the highest point on the chart for
 * A score of 0 means there was not enough data for this term.
 """)
 
-from pytrends.request import TrendReq
 pytrends = TrendReq(hl='de-DE', tz=360, timeout=(10,25),  retries=2, backoff_factor=0.1)
 
 start = st.date_input("Select the start date")
@@ -26,29 +29,32 @@ end = st.date_input("Select the end date", "today")
 # st.write(start)
 # st.write(end)
 
-term = st.text_input(label="Enter the term", value="E-Auto")
+term_in = st.text_input(label="Enter the terms (separate by comma)", value="E-Auto, Auto kaufen")
 #timeframe = '2023-01-01 2024-03-23'  # custom date range works but the retured values are binned week-wise
 timeframe = f'{start} {end}'
 
-@st.cache_resource
-def request_interest_over_time(term, timeframe):
-    pytrends = TrendReq(hl='de-DE', tz=360)
-    pytrends.build_payload(kw_list=[term],
-                       cat=0, # Category:0 for all categories (see https://github.com/pat310/google-trends-api/wiki/Google-Trends-Categories for all)
-                       timeframe=timeframe,
-                       geo='DE', # Geographic location, in this case 'Deutschland'
-                       gprop='') # Google Search Property, e.g. 'images' Defaults to web searches
-    return pytrends.interest_over_time()
-    
-if st.button('Search'):
-    interest_over_time_df = request_interest_over_time(term, timeframe)
+terms = term_in.split(',')
+#terms = [f'({t})' for t in terms]
 
-    cols = st.columns(2)
+#@st.cache_resource
+#st.checkbox('Individual', )
+if st.button('Check'):
+
+    interest_over_time_df = request_trends_individual(terms)
+
+    cols = st.columns([0.3, 0.7])
     with cols[0]:
         st.dataframe(interest_over_time_df)
     with cols[1]:
-        trend_fig = px.line(x=interest_over_time_df.index, y=interest_over_time_df[term],
-                            color_discrete_sequence=['#252f91'])
+        trend_fig = px.line(interest_over_time_df, 
+                            #template='simple_white',
+                            color_discrete_sequence=[
+                                '#252f91', '#ff9800', '#a52670', '#0c600f', '#1a98ce', '#7026a5', '#000000','#9fa526'
+                                ]
+                            )
         st.plotly_chart(trend_fig, use_container_width=True)
 
-
+    st.download_button(label="Download the trend data as csv", 
+                   data=interest_over_time_df.to_csv(),
+                   file_name="trends.csv",
+                   mime='text/csv')

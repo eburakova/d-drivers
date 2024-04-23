@@ -1,7 +1,7 @@
 import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
-from transformers import pipeline
+from pytrends.request import TrendReq
 
 def format_number(num):
     if num > 1000000:
@@ -168,10 +168,12 @@ def plot_feature_influence(feature, metric, df=None,
     fig_sc.update_layout(layout)
     return fig_sc
 
+from transformers import pipeline
+
 model_name = "./sentiment/"# initialize sentiment analysis pipeline
 sent_model = pipeline("sentiment-analysis", model=model_name)
 def get_sentiment(text="Ich fahre mein E-Bike sehr gerne!"):
-    text = str(text).lower()
+    text = str(text)
     if text and text != 'nan': # in case the text is empty
         result = sent_model(text)
         label = result[0]['label']
@@ -179,4 +181,31 @@ def get_sentiment(text="Ich fahre mein E-Bike sehr gerne!"):
         return label.capitalize(), round(score*100, 2)
     else:
         return 'Neutral', None
-# 
+
+def request_interest_over_time(term, timeframe):
+    pytrends = TrendReq(hl='de-DE', tz=360)
+    pytrends.build_payload(kw_list=[term],
+                       cat=0, # Category:0 for all categories (see https://github.com/pat310/google-trends-api/wiki/Google-Trends-Categories for all)
+                       timeframe=timeframe,
+                       geo='DE', # Geographic location, in this case 'Deutschland'
+                       gprop='') # Google Search Property, e.g. 'images' Defaults to web searches
+    return pytrends.interest_over_time()
+
+import time
+def request_trends_individual(terms, timeframe='2023-01-01 2024-03-23'):
+    interest_df = request_interest_over_time(terms[0], timeframe)
+    interest_df = interest_df.drop('isPartial', axis=1)
+    if len(terms) > 1:
+        for term in terms[1:]:
+            interest_df_term = request_interest_over_time(term, timeframe)
+            interest_df_term = interest_df_term.drop('isPartial', axis=1)
+            interest_df = interest_df.join(interest_df_term) 
+            time.sleep(.5)
+    return interest_df
+
+def plot_interest(interest_over_time_df):
+    fig = px.line(interest_over_time_df, 
+        color_discrete_sequence=[
+            '#252f91', '#ff9800', '#a52670', '#0c600f', '#1a98ce', '#7026a5', '#000000','#9fa526'
+            ]
+                 )
